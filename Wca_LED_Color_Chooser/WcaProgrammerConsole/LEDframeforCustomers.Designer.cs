@@ -76,33 +76,42 @@
             // 
             // tbarRed
             // 
+            this.tbarRed.LargeChange = 655;
             this.tbarRed.Location = new System.Drawing.Point(86, 119);
             this.tbarRed.Maximum = 65535;
             this.tbarRed.Name = "tbarRed";
             this.tbarRed.Size = new System.Drawing.Size(282, 45);
+            this.tbarRed.SmallChange = 655;
             this.tbarRed.TabIndex = 0;
+            this.tbarRed.TickFrequency = 655;
             this.tbarRed.Scroll += new System.EventHandler(this.tbarRed_Scroll);
             this.tbarRed.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbarRed_MouseDown);
             this.tbarRed.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbarRed_MouseUp);
             // 
             // tbarGreen
             // 
+            this.tbarGreen.LargeChange = 655;
             this.tbarGreen.Location = new System.Drawing.Point(86, 170);
             this.tbarGreen.Maximum = 65535;
             this.tbarGreen.Name = "tbarGreen";
             this.tbarGreen.Size = new System.Drawing.Size(282, 45);
+            this.tbarGreen.SmallChange = 655;
             this.tbarGreen.TabIndex = 1;
+            this.tbarGreen.TickFrequency = 655;
             this.tbarGreen.Scroll += new System.EventHandler(this.tbarGreen_Scroll);
             this.tbarGreen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbarGreen_MouseDown);
             this.tbarGreen.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbarGreen_MouseUp);
             // 
             // tbarBlue
             // 
-            this.tbarBlue.Location = new System.Drawing.Point(86, 221);
+            this.tbarBlue.LargeChange = 655;
+            this.tbarBlue.Location = new System.Drawing.Point(84, 225);
             this.tbarBlue.Maximum = 65535;
             this.tbarBlue.Name = "tbarBlue";
             this.tbarBlue.Size = new System.Drawing.Size(282, 45);
+            this.tbarBlue.SmallChange = 655;
             this.tbarBlue.TabIndex = 2;
+            this.tbarBlue.TickFrequency = 655;
             this.tbarBlue.Scroll += new System.EventHandler(this.tbarBlue_Scroll);
             this.tbarBlue.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbarBlue_MouseDown);
             this.tbarBlue.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tbarBlue_MouseUp);
@@ -157,7 +166,7 @@
             // tbRed
             // 
             this.tbRed.Location = new System.Drawing.Point(370, 119);
-            this.tbRed.MaxLength = 4;
+            this.tbRed.MaxLength = 5;
             this.tbRed.Name = "tbRed";
             this.tbRed.Size = new System.Drawing.Size(47, 20);
             this.tbRed.TabIndex = 8;
@@ -167,6 +176,7 @@
             // tbGreen
             // 
             this.tbGreen.Location = new System.Drawing.Point(370, 170);
+            this.tbGreen.MaxLength = 5;
             this.tbGreen.Name = "tbGreen";
             this.tbGreen.Size = new System.Drawing.Size(47, 20);
             this.tbGreen.TabIndex = 9;
@@ -176,6 +186,7 @@
             // tbBlue
             // 
             this.tbBlue.Location = new System.Drawing.Point(370, 221);
+            this.tbBlue.MaxLength = 5;
             this.tbBlue.Name = "tbBlue";
             this.tbBlue.Size = new System.Drawing.Size(47, 20);
             this.tbBlue.TabIndex = 10;
@@ -295,7 +306,7 @@
             // 
             this.rbCyanGreen.AutoSize = true;
             this.rbCyanGreen.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanGreen.Location = new System.Drawing.Point(83, 5);
+            this.rbCyanGreen.Location = new System.Drawing.Point(91, 6);
             this.rbCyanGreen.Name = "rbCyanGreen";
             this.rbCyanGreen.Size = new System.Drawing.Size(81, 43);
             this.rbCyanGreen.TabIndex = 23;
@@ -310,7 +321,7 @@
             // 
             this.rbCyanWhite.AutoSize = true;
             this.rbCyanWhite.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanWhite.Location = new System.Drawing.Point(0, 5);
+            this.rbCyanWhite.Location = new System.Drawing.Point(3, 6);
             this.rbCyanWhite.Name = "rbCyanWhite";
             this.rbCyanWhite.Size = new System.Drawing.Size(88, 43);
             this.rbCyanWhite.TabIndex = 24;
@@ -325,7 +336,7 @@
             // 
             this.rbCyanBlue.AutoSize = true;
             this.rbCyanBlue.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanBlue.Location = new System.Drawing.Point(163, 5);
+            this.rbCyanBlue.Location = new System.Drawing.Point(163, 6);
             this.rbCyanBlue.Name = "rbCyanBlue";
             this.rbCyanBlue.Size = new System.Drawing.Size(59, 43);
             this.rbCyanBlue.TabIndex = 25;
@@ -340,12 +351,12 @@
             // 
             this.rbYellowWhite.AutoSize = true;
             this.rbYellowWhite.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbYellowWhite.Location = new System.Drawing.Point(269, 5);
+            this.rbYellowWhite.Location = new System.Drawing.Point(21, 6);
             this.rbYellowWhite.Name = "rbYellowWhite";
-            this.rbYellowWhite.Size = new System.Drawing.Size(39, 30);
+            this.rbYellowWhite.Size = new System.Drawing.Size(88, 43);
             this.rbYellowWhite.TabIndex = 29;
             this.rbYellowWhite.TabStop = true;
-            this.rbYellowWhite.Text = "White";
+            this.rbYellowWhite.Text = "White\r\n(Device Search)";
             this.rbYellowWhite.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.rbYellowWhite.UseVisualStyleBackColor = true;
             this.rbYellowWhite.Visible = false;
@@ -355,12 +366,13 @@
             // 
             this.rbYellowGreen.AutoSize = true;
             this.rbYellowGreen.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbYellowGreen.Location = new System.Drawing.Point(113, 5);
+            this.rbYellowGreen.Location = new System.Drawing.Point(115, 6);
             this.rbYellowGreen.Name = "rbYellowGreen";
-            this.rbYellowGreen.Size = new System.Drawing.Size(40, 30);
+            this.rbYellowGreen.Size = new System.Drawing.Size(59, 43);
             this.rbYellowGreen.TabIndex = 28;
             this.rbYellowGreen.TabStop = true;
-            this.rbYellowGreen.Text = "Green";
+            this.rbYellowGreen.Text = "Green\r\n(Charging)";
+            this.rbYellowGreen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbYellowGreen.UseVisualStyleBackColor = true;
             this.rbYellowGreen.Visible = false;
             this.rbYellowGreen.CheckedChanged += new System.EventHandler(this.rbYellowGreen_CheckedChanged);
@@ -369,12 +381,12 @@
             // 
             this.rbYellowRed.AutoSize = true;
             this.rbYellowRed.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbYellowRed.Location = new System.Drawing.Point(47, 5);
+            this.rbYellowRed.Location = new System.Drawing.Point(273, 6);
             this.rbYellowRed.Name = "rbYellowRed";
-            this.rbYellowRed.Size = new System.Drawing.Size(31, 30);
+            this.rbYellowRed.Size = new System.Drawing.Size(49, 43);
             this.rbYellowRed.TabIndex = 27;
             this.rbYellowRed.TabStop = true;
-            this.rbYellowRed.Text = "Red\r\n";
+            this.rbYellowRed.Text = "Red\r\n(Defect)";
             this.rbYellowRed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbYellowRed.UseVisualStyleBackColor = true;
             this.rbYellowRed.Visible = false;
@@ -385,12 +397,12 @@
             this.rbYellowOrange.AutoSize = true;
             this.rbYellowOrange.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
             this.rbYellowOrange.Cursor = System.Windows.Forms.Cursors.Default;
-            this.rbYellowOrange.Location = new System.Drawing.Point(185, 5);
+            this.rbYellowOrange.Location = new System.Drawing.Point(191, 6);
             this.rbYellowOrange.Name = "rbYellowOrange";
-            this.rbYellowOrange.Size = new System.Drawing.Size(46, 30);
+            this.rbYellowOrange.Size = new System.Drawing.Size(65, 43);
             this.rbYellowOrange.TabIndex = 26;
             this.rbYellowOrange.TabStop = true;
-            this.rbYellowOrange.Text = "Orange";
+            this.rbYellowOrange.Text = "Orange\r\n(Protection)";
             this.rbYellowOrange.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.rbYellowOrange.UseVisualStyleBackColor = true;
             this.rbYellowOrange.Visible = false;
@@ -399,9 +411,9 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.rbYellowOff);
-            this.panel1.Controls.Add(this.rbCyanOff);
-            this.panel1.Controls.Add(this.rbYellowRed);
             this.panel1.Controls.Add(this.rbYellowGreen);
+            this.panel1.Controls.Add(this.rbYellowRed);
+            this.panel1.Controls.Add(this.rbCyanOff);
             this.panel1.Controls.Add(this.rbYellowOrange);
             this.panel1.Controls.Add(this.rbYellowWhite);
             this.panel1.Controls.Add(this.rbCyanWhite);
@@ -418,12 +430,12 @@
             // 
             this.rbYellowOff.AutoSize = true;
             this.rbYellowOff.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbYellowOff.Location = new System.Drawing.Point(346, 5);
+            this.rbYellowOff.Location = new System.Drawing.Point(337, 6);
             this.rbYellowOff.Name = "rbYellowOff";
-            this.rbYellowOff.Size = new System.Drawing.Size(25, 30);
+            this.rbYellowOff.Size = new System.Drawing.Size(55, 43);
             this.rbYellowOff.TabIndex = 31;
             this.rbYellowOff.TabStop = true;
-            this.rbYellowOff.Text = "Off";
+            this.rbYellowOff.Text = "Off\r\n(ACC Off)";
             this.rbYellowOff.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.rbYellowOff.UseVisualStyleBackColor = true;
             this.rbYellowOff.Visible = false;
@@ -537,7 +549,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LEDframeforCustomers";
-            this.Text = "Mazda Change LED Color v1.2";
+            this.Text = "Mazda Change LED Color v1.3";
             ((System.ComponentModel.ISupportInitialize)(this.tbarRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarBlue)).EndInit();

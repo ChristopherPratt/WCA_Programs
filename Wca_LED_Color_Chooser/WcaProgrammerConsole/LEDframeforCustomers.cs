@@ -35,6 +35,11 @@ namespace WcaDVConsole
         double step = 1;
         string[] availableComports;
 
+        int tbarRedValue = 0;
+        int tbarGreenValue = 0;
+        int tbarBlueValue = 0;
+
+
 
         List<Control> ColorsTrackBars, radioButtonsCyan, radioButtonsYellow, dataTypes, initialDisable, IntensityTrackBar;
 
@@ -71,9 +76,9 @@ namespace WcaDVConsole
             cyanWhite = new List<byte[]> { new byte[] { 0xFF, 0x2F, 0, 0 }, new byte[] { 0xFF, 0x2F, 0, 0 }, new byte[] { 0xFF, 0x2F, 0, 0 } };
             cyanOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
             yellowRed = new List<byte[]> { new byte[] { 0xFF, 0xFF, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            yellowOrange = new List<byte[]> { new byte[] { 0xFF, 0x9F, 0, 0 }, new byte[] { 0xFF, 0x5F, 0, 0 }, new byte[] { 0xFF, 0x03, 0, 0 } };
+            yellowOrange = new List<byte[]> { new byte[] { 0x1D, 0xC5, 0, 0 }, new byte[] { 0xD8, 0x1A, 0, 0 }, new byte[] { 0x00, 0x00, 0, 0 } };
             yellowGreen = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x3F, 0, 0 }, new byte[] { 0xFF, 0x01, 0, 0 } };
-            yellowWhite = new List<byte[]> { new byte[] { 0xFF, 0x0A, 0, 0 }, new byte[] { 0xFF, 0x62, 0, 0 }, new byte[] { 0xFF, 0x0F, 0, 0 } };
+            yellowWhite = new List<byte[]> { new byte[] { 0x32, 0xB3, 0, 0 }, new byte[] { 0x7D, 0x8B, 0, 0 }, new byte[] { 0xB1, 0x3E, 0, 0 } };
             yellowOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
             cyanColors = new List<List<byte[]>> { cyanRed, cyanOrange, cyanBlue, cyanGreen, cyanWhite, cyanOff };
             yellowColors = new List<List<byte[]>> { yellowRed, yellowOrange, yellowGreen, yellowWhite, yellowOff };
@@ -167,9 +172,9 @@ namespace WcaDVConsole
                         setEnabled(dataTypes);
                         setEnabled(IntensityTrackBar);
                     }
-                    tbRed.MaxLength = 3;
-                    tbGreen.MaxLength = 3;
-                    tbBlue.MaxLength = 3;
+                    tbRed.MaxLength = 5;
+                    tbGreen.MaxLength = 5;
+                    tbBlue.MaxLength = 5;
                     readLEDs();
                 }
             };
@@ -313,21 +318,26 @@ namespace WcaDVConsole
         {
             if (rbHex.Checked)
             {
-                tbRed.Text = string.Format("{0:X}{1:X}", redArray[1], redArray[0]);
-                tbGreen.Text = string.Format("{0:X}{1:X}", greenArray[1], greenArray[0]);
-                tbBlue.Text = string.Format("{0:X}{1:X}", blueArray[1], blueArray[0]);
+                //tbRed.Text = string.Format("{0:X}{1:X}", redArray[1], redArray[0]);
+                //tbGreen.Text = string.Format("{0:X}{1:X}", greenArray[1], greenArray[0]);
+                //tbBlue.Text = string.Format("{0:X}{1:X}", blueArray[1], blueArray[0]);
+
+                tbRed.Text = string.Format("{0:X2}", redArray[1]) + string.Format("{0:X2}", redArray[0]);
+                tbGreen.Text = string.Format("{0:X2}", greenArray[1]) + string.Format("{0:X2}", greenArray[0]);
+                tbBlue.Text = string.Format("{0:X2}", blueArray[1]) + string.Format("{0:X2}", blueArray[0]);
                 tbRed.MaxLength = 4;
                 tbGreen.MaxLength = 4;
                 tbBlue.MaxLength = 4;
             }
             else
             {
-                tbRed.Text = ((BitConverter.ToInt32(redArray, 0) * 100) / 65535).ToString();
-                tbGreen.Text = ((BitConverter.ToInt32(greenArray, 0) * 100) / 65535).ToString();
-                tbBlue.Text = ((BitConverter.ToInt32(blueArray, 0) * 100) / 65535).ToString();
-                tbRed.MaxLength = 3;
-                tbGreen.MaxLength = 3;
-                tbBlue.MaxLength = 3;
+
+                tbRed.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(redArray, 0) * 100) / 65535);
+                tbGreen.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(greenArray, 0) * 100) / 65535);
+                tbBlue.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(blueArray, 0) * 100) / 65535);
+                tbRed.MaxLength = 5;
+                tbGreen.MaxLength = 5;
+                tbBlue.MaxLength = 5;
             }
         }
         
@@ -458,7 +468,7 @@ namespace WcaDVConsole
             
             if (newValue.Equals("")) return false;
             uncheckDefaultColors();
-            int temp = 0;
+            double temp = 0;
             byte[] temparray;
                
             if (rbPercentage.Checked)
@@ -466,16 +476,16 @@ namespace WcaDVConsole
                 bool isdigits = true;
                 foreach (char c in newValue)
                 {
-                    if (c < '0' || c > '9')
+                    if (!(c >= '0' || c <= '9' || c.Equals('.')))
                         isdigits = false;
                 }
                 if (!isdigits) { MessageBox.Show("Text box can only contain numbers when representing a percentage.", "Important Message"); return false; }
                 else
                 {
-                    temp = (Convert.ToInt32(newValue) * 65535) / 100;
+                    temp = (Convert.ToDouble(newValue) * 65535) / 100;
                     if (temp > 65535 || temp < 0) { MessageBox.Show("Please enter a number between 0 and 100.", "Important Message"); return false; }
-                    trackbar.Value = temp;
-                    myArray = BitConverter.GetBytes(temp);
+                    trackbar.Value = (int)temp;
+                    myArray = BitConverter.GetBytes((int)temp);
                     color = new Thread(delegate ()
                     {
                         myCommands.SetLEDColor2(0, redArray, greenArray, blueArray);
@@ -627,7 +637,7 @@ namespace WcaDVConsole
                             Action temp1 = () =>
                             {
                                 uncheckDefaultColors();
-                                ((RadioButton)radioButtonsCyan[a]).Checked = true;
+                                ((RadioButton)radioButtonsYellow[a]).Checked = true;
                             };
                             getLEDforCustomers(temp1);
                             return true;
@@ -648,15 +658,15 @@ namespace WcaDVConsole
                 Action temp1 = () => {
                     if (rbPercentage.Checked)
                     {
-                        tbRed.Text = ((BitConverter.ToInt32(red, 0) * 100) / 65535).ToString();
-                        tbGreen.Text = ((BitConverter.ToInt32(green, 0) * 100) / 65535).ToString();
-                        tbBlue.Text = ((BitConverter.ToInt32(blue, 0) * 100) / 65535).ToString();
+                        tbRed.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(red, 0) * 100) / 65535);
+                        tbGreen.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(green, 0) * 100) / 65535);
+                        tbBlue.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(blue, 0) * 100) / 65535);
                     }
                     else
                     {
-                        tbRed.Text = string.Format("{0:X}{1:X}", red[1], red[0]);
-                        tbGreen.Text = string.Format("{0:X}{1:X}", green[1], green[0]);
-                        tbBlue.Text = string.Format("{0:X}{1:X}", blue[1], blue[0]);
+                        tbRed.Text = string.Format("{0:X2}{1:X2}", red[1], red[0]);
+                        tbGreen.Text = string.Format("{0:X2}{1:X2}", green[1], green[0]);
+                        tbBlue.Text = string.Format("{0:X2}{1:X2}", blue[1], blue[0]);
                     }
 
 
@@ -698,25 +708,20 @@ namespace WcaDVConsole
             redArray = red; // update arrays
             greenArray = green;
             blueArray = blue;
-
-
-
+            
             if (rbPercentage.Checked)
             {
-                tbRed.Text = ((BitConverter.ToInt32(red, 0) * 100) / 65535).ToString();
-                tbGreen.Text = ((BitConverter.ToInt32(green, 0) * 100) / 65535).ToString();
-                tbBlue.Text = ((BitConverter.ToInt32(blue, 0) * 100) / 65535).ToString();
+                tbRed.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(red, 0) * 100) / 65535);
+                tbGreen.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(green, 0) * 100) / 65535);
+                tbBlue.Text = String.Format("{0:0.##}", ((double)BitConverter.ToInt32(blue, 0) * 100) / 65535);
             }
             else
             {
-                tbRed.Text = string.Format("{0:X}{1:X}", red[1], red[0]);
-                tbGreen.Text = string.Format("{0:X}{1:X}", green[1], green[0]);
-                tbBlue.Text = string.Format("{0:X}{1:X}", blue[1], blue[0]);
+                tbRed.Text = string.Format("{0:X2}{1:X2}", red[1], red[0]);
+                tbGreen.Text = string.Format("{0:X2}{1:X2}", green[1], green[0]);
+                tbBlue.Text = string.Format("{0:X2}{1:X2}", blue[1], blue[0]);
             }
-
-
-
-
+            
             int redVal = BitConverter.ToInt32(red, 0); // update track bars
             tbarRed.Value = redVal;
             int greenVal = BitConverter.ToInt32(green, 0);
@@ -910,10 +915,10 @@ namespace WcaDVConsole
         private void updateColorTextBox(TrackBar trackBar, TextBox textBox, int myvalue, ref byte[] myColor)
         {
             myColor = BitConverter.GetBytes(myvalue);
-            if (rbPercentage.Checked) textBox.Text = ((myvalue * 100) / 65535).ToString();
+            if (rbPercentage.Checked) textBox.Text = String.Format("{0:0.##}", ((Double)myvalue * 100.0 / 65535.0));
             else
             {
-                textBox.Text = string.Format("{0:X}{1:X}", myColor[1], myColor[0]);
+                textBox.Text = string.Format("{0:X2}{1:X2}", myColor[1], myColor[0]);
             }
         }
         private void lockTrackBar(TrackBar trackBar, ref bool mybool)
