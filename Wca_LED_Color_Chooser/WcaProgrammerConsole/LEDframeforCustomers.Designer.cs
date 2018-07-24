@@ -57,8 +57,8 @@
             this.rbYellowRed = new System.Windows.Forms.RadioButton();
             this.rbYellowOrange = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.rbYellowOff = new System.Windows.Forms.RadioButton();
             this.rbCyanOff = new System.Windows.Forms.RadioButton();
+            this.rbYellowOff = new System.Windows.Forms.RadioButton();
             this.cbEnableSliders = new System.Windows.Forms.CheckBox();
             this.gbDefault = new System.Windows.Forms.GroupBox();
             this.lblBaud = new System.Windows.Forms.Label();
@@ -66,6 +66,10 @@
             this.lblGreentxt = new System.Windows.Forms.Label();
             this.lblBluetxt = new System.Windows.Forms.Label();
             this.lblIntensitytxt = new System.Windows.Forms.Label();
+            this.lbUserColors = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbUserColorsName = new System.Windows.Forms.TextBox();
+            this.bSaveDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbarRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarBlue)).BeginInit();
@@ -77,10 +81,10 @@
             // tbarRed
             // 
             this.tbarRed.LargeChange = 655;
-            this.tbarRed.Location = new System.Drawing.Point(86, 119);
+            this.tbarRed.Location = new System.Drawing.Point(143, 121);
             this.tbarRed.Maximum = 65535;
             this.tbarRed.Name = "tbarRed";
-            this.tbarRed.Size = new System.Drawing.Size(282, 45);
+            this.tbarRed.Size = new System.Drawing.Size(318, 45);
             this.tbarRed.SmallChange = 655;
             this.tbarRed.TabIndex = 0;
             this.tbarRed.TickFrequency = 655;
@@ -91,10 +95,10 @@
             // tbarGreen
             // 
             this.tbarGreen.LargeChange = 655;
-            this.tbarGreen.Location = new System.Drawing.Point(86, 170);
+            this.tbarGreen.Location = new System.Drawing.Point(143, 172);
             this.tbarGreen.Maximum = 65535;
             this.tbarGreen.Name = "tbarGreen";
-            this.tbarGreen.Size = new System.Drawing.Size(282, 45);
+            this.tbarGreen.Size = new System.Drawing.Size(318, 45);
             this.tbarGreen.SmallChange = 655;
             this.tbarGreen.TabIndex = 1;
             this.tbarGreen.TickFrequency = 655;
@@ -105,10 +109,10 @@
             // tbarBlue
             // 
             this.tbarBlue.LargeChange = 655;
-            this.tbarBlue.Location = new System.Drawing.Point(84, 225);
+            this.tbarBlue.Location = new System.Drawing.Point(143, 223);
             this.tbarBlue.Maximum = 65535;
             this.tbarBlue.Name = "tbarBlue";
-            this.tbarBlue.Size = new System.Drawing.Size(282, 45);
+            this.tbarBlue.Size = new System.Drawing.Size(318, 45);
             this.tbarBlue.SmallChange = 655;
             this.tbarBlue.TabIndex = 2;
             this.tbarBlue.TickFrequency = 655;
@@ -118,10 +122,10 @@
             // 
             // tbarIntensity
             // 
-            this.tbarIntensity.Location = new System.Drawing.Point(86, 272);
+            this.tbarIntensity.Location = new System.Drawing.Point(143, 274);
             this.tbarIntensity.Maximum = 100;
             this.tbarIntensity.Name = "tbarIntensity";
-            this.tbarIntensity.Size = new System.Drawing.Size(282, 45);
+            this.tbarIntensity.Size = new System.Drawing.Size(318, 45);
             this.tbarIntensity.TabIndex = 3;
             this.tbarIntensity.Scroll += new System.EventHandler(this.tbarIntensity_Scroll);
             this.tbarIntensity.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tbarIntensity_MouseDown);
@@ -130,7 +134,7 @@
             // lblred
             // 
             this.lblred.AutoSize = true;
-            this.lblred.Location = new System.Drawing.Point(51, 125);
+            this.lblred.Location = new System.Drawing.Point(108, 127);
             this.lblred.Name = "lblred";
             this.lblred.Size = new System.Drawing.Size(27, 13);
             this.lblred.TabIndex = 4;
@@ -139,7 +143,7 @@
             // lblGreen
             // 
             this.lblGreen.AutoSize = true;
-            this.lblGreen.Location = new System.Drawing.Point(51, 173);
+            this.lblGreen.Location = new System.Drawing.Point(108, 175);
             this.lblGreen.Name = "lblGreen";
             this.lblGreen.Size = new System.Drawing.Size(36, 13);
             this.lblGreen.TabIndex = 5;
@@ -148,7 +152,7 @@
             // lblBlue
             // 
             this.lblBlue.AutoSize = true;
-            this.lblBlue.Location = new System.Drawing.Point(50, 228);
+            this.lblBlue.Location = new System.Drawing.Point(107, 230);
             this.lblBlue.Name = "lblBlue";
             this.lblBlue.Size = new System.Drawing.Size(28, 13);
             this.lblBlue.TabIndex = 6;
@@ -157,7 +161,7 @@
             // lblIntensity
             // 
             this.lblIntensity.AutoSize = true;
-            this.lblIntensity.Location = new System.Drawing.Point(45, 276);
+            this.lblIntensity.Location = new System.Drawing.Point(102, 278);
             this.lblIntensity.Name = "lblIntensity";
             this.lblIntensity.Size = new System.Drawing.Size(46, 13);
             this.lblIntensity.TabIndex = 7;
@@ -165,7 +169,7 @@
             // 
             // tbRed
             // 
-            this.tbRed.Location = new System.Drawing.Point(370, 119);
+            this.tbRed.Location = new System.Drawing.Point(466, 118);
             this.tbRed.MaxLength = 5;
             this.tbRed.Name = "tbRed";
             this.tbRed.Size = new System.Drawing.Size(47, 20);
@@ -175,7 +179,7 @@
             // 
             // tbGreen
             // 
-            this.tbGreen.Location = new System.Drawing.Point(370, 170);
+            this.tbGreen.Location = new System.Drawing.Point(466, 169);
             this.tbGreen.MaxLength = 5;
             this.tbGreen.Name = "tbGreen";
             this.tbGreen.Size = new System.Drawing.Size(47, 20);
@@ -185,7 +189,7 @@
             // 
             // tbBlue
             // 
-            this.tbBlue.Location = new System.Drawing.Point(370, 221);
+            this.tbBlue.Location = new System.Drawing.Point(466, 220);
             this.tbBlue.MaxLength = 5;
             this.tbBlue.Name = "tbBlue";
             this.tbBlue.Size = new System.Drawing.Size(47, 20);
@@ -195,7 +199,7 @@
             // 
             // tbIntensity
             // 
-            this.tbIntensity.Location = new System.Drawing.Point(370, 273);
+            this.tbIntensity.Location = new System.Drawing.Point(466, 272);
             this.tbIntensity.MaxLength = 3;
             this.tbIntensity.Name = "tbIntensity";
             this.tbIntensity.Size = new System.Drawing.Size(47, 20);
@@ -206,7 +210,7 @@
             // rbHex
             // 
             this.rbHex.AutoSize = true;
-            this.rbHex.Location = new System.Drawing.Point(131, 96);
+            this.rbHex.Location = new System.Drawing.Point(188, 98);
             this.rbHex.Name = "rbHex";
             this.rbHex.Size = new System.Drawing.Size(82, 17);
             this.rbHex.TabIndex = 12;
@@ -219,7 +223,7 @@
             // 
             this.rbPercentage.AutoSize = true;
             this.rbPercentage.Checked = true;
-            this.rbPercentage.Location = new System.Drawing.Point(256, 97);
+            this.rbPercentage.Location = new System.Drawing.Point(313, 99);
             this.rbPercentage.Name = "rbPercentage";
             this.rbPercentage.Size = new System.Drawing.Size(80, 17);
             this.rbPercentage.TabIndex = 13;
@@ -231,7 +235,7 @@
             // label1
             // 
             this.label1.Image = global::WcaProgrammerConsole.Properties.Resources.LairdLogo;
-            this.label1.Location = new System.Drawing.Point(274, 12);
+            this.label1.Location = new System.Drawing.Point(352, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 78);
             this.label1.TabIndex = 15;
@@ -239,15 +243,15 @@
             // lbComPorts
             // 
             this.lbComPorts.FormattingEnabled = true;
-            this.lbComPorts.Location = new System.Drawing.Point(186, 22);
+            this.lbComPorts.Location = new System.Drawing.Point(167, 20);
             this.lbComPorts.Name = "lbComPorts";
-            this.lbComPorts.Size = new System.Drawing.Size(73, 69);
+            this.lbComPorts.Size = new System.Drawing.Size(142, 69);
             this.lbComPorts.TabIndex = 16;
             this.lbComPorts.SelectedIndexChanged += new System.EventHandler(this.lbComPorts_SelectedIndexChanged);
             // 
             // bHelp
             // 
-            this.bHelp.Location = new System.Drawing.Point(53, 31);
+            this.bHelp.Location = new System.Drawing.Point(24, 31);
             this.bHelp.Name = "bHelp";
             this.bHelp.Size = new System.Drawing.Size(94, 37);
             this.bHelp.TabIndex = 18;
@@ -257,7 +261,7 @@
             // 
             // lblESN
             // 
-            this.lblESN.Location = new System.Drawing.Point(53, 71);
+            this.lblESN.Location = new System.Drawing.Point(24, 71);
             this.lblESN.Name = "lblESN";
             this.lblESN.Size = new System.Drawing.Size(128, 27);
             this.lblESN.TabIndex = 19;
@@ -266,7 +270,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(197, 4);
+            this.label5.Location = new System.Drawing.Point(218, 4);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 13);
             this.label5.TabIndex = 20;
@@ -306,7 +310,7 @@
             // 
             this.rbCyanGreen.AutoSize = true;
             this.rbCyanGreen.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanGreen.Location = new System.Drawing.Point(91, 6);
+            this.rbCyanGreen.Location = new System.Drawing.Point(84, 6);
             this.rbCyanGreen.Name = "rbCyanGreen";
             this.rbCyanGreen.Size = new System.Drawing.Size(81, 43);
             this.rbCyanGreen.TabIndex = 23;
@@ -321,7 +325,7 @@
             // 
             this.rbCyanWhite.AutoSize = true;
             this.rbCyanWhite.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanWhite.Location = new System.Drawing.Point(3, 6);
+            this.rbCyanWhite.Location = new System.Drawing.Point(0, 6);
             this.rbCyanWhite.Name = "rbCyanWhite";
             this.rbCyanWhite.Size = new System.Drawing.Size(88, 43);
             this.rbCyanWhite.TabIndex = 24;
@@ -410,21 +414,35 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.rbYellowOff);
-            this.panel1.Controls.Add(this.rbYellowGreen);
-            this.panel1.Controls.Add(this.rbYellowRed);
-            this.panel1.Controls.Add(this.rbCyanOff);
-            this.panel1.Controls.Add(this.rbYellowOrange);
-            this.panel1.Controls.Add(this.rbYellowWhite);
             this.panel1.Controls.Add(this.rbCyanWhite);
             this.panel1.Controls.Add(this.rbCyanGreen);
             this.panel1.Controls.Add(this.rbCyanBlue);
             this.panel1.Controls.Add(this.rbCyanOrange);
             this.panel1.Controls.Add(this.rbCyanRed);
+            this.panel1.Controls.Add(this.rbCyanOff);
+            this.panel1.Controls.Add(this.rbYellowOff);
+            this.panel1.Controls.Add(this.rbYellowGreen);
+            this.panel1.Controls.Add(this.rbYellowRed);
+            this.panel1.Controls.Add(this.rbYellowOrange);
+            this.panel1.Controls.Add(this.rbYellowWhite);
             this.panel1.Location = new System.Drawing.Point(6, 19);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(414, 59);
             this.panel1.TabIndex = 30;
+            // 
+            // rbCyanOff
+            // 
+            this.rbCyanOff.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.rbCyanOff.Location = new System.Drawing.Point(355, 4);
+            this.rbCyanOff.Name = "rbCyanOff";
+            this.rbCyanOff.Size = new System.Drawing.Size(55, 44);
+            this.rbCyanOff.TabIndex = 30;
+            this.rbCyanOff.TabStop = true;
+            this.rbCyanOff.Text = "Off\r\n(ACC Off)";
+            this.rbCyanOff.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbCyanOff.UseVisualStyleBackColor = true;
+            this.rbCyanOff.Visible = false;
+            this.rbCyanOff.CheckedChanged += new System.EventHandler(this.rbCyanOff_CheckedChanged);
             // 
             // rbYellowOff
             // 
@@ -441,24 +459,10 @@
             this.rbYellowOff.Visible = false;
             this.rbYellowOff.CheckedChanged += new System.EventHandler(this.rbYellowOff_CheckedChanged);
             // 
-            // rbCyanOff
-            // 
-            this.rbCyanOff.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.rbCyanOff.Location = new System.Drawing.Point(359, 5);
-            this.rbCyanOff.Name = "rbCyanOff";
-            this.rbCyanOff.Size = new System.Drawing.Size(55, 44);
-            this.rbCyanOff.TabIndex = 30;
-            this.rbCyanOff.TabStop = true;
-            this.rbCyanOff.Text = "Off\r\n(ACC Off)";
-            this.rbCyanOff.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rbCyanOff.UseVisualStyleBackColor = true;
-            this.rbCyanOff.Visible = false;
-            this.rbCyanOff.CheckedChanged += new System.EventHandler(this.rbCyanOff_CheckedChanged);
-            // 
             // cbEnableSliders
             // 
             this.cbEnableSliders.AutoSize = true;
-            this.cbEnableSliders.Location = new System.Drawing.Point(37, 6);
+            this.cbEnableSliders.Location = new System.Drawing.Point(8, 6);
             this.cbEnableSliders.Name = "cbEnableSliders";
             this.cbEnableSliders.Size = new System.Drawing.Size(120, 17);
             this.cbEnableSliders.TabIndex = 31;
@@ -469,7 +473,7 @@
             // gbDefault
             // 
             this.gbDefault.Controls.Add(this.panel1);
-            this.gbDefault.Location = new System.Drawing.Point(12, 309);
+            this.gbDefault.Location = new System.Drawing.Point(105, 310);
             this.gbDefault.Name = "gbDefault";
             this.gbDefault.Size = new System.Drawing.Size(426, 78);
             this.gbDefault.TabIndex = 32;
@@ -486,31 +490,67 @@
             // 
             // lblRedtxt
             // 
-            this.lblRedtxt.Location = new System.Drawing.Point(367, 142);
+            this.lblRedtxt.Location = new System.Drawing.Point(463, 141);
             this.lblRedtxt.Name = "lblRedtxt";
             this.lblRedtxt.Size = new System.Drawing.Size(67, 25);
             this.lblRedtxt.TabIndex = 37;
             // 
             // lblGreentxt
             // 
-            this.lblGreentxt.Location = new System.Drawing.Point(367, 193);
+            this.lblGreentxt.Location = new System.Drawing.Point(463, 192);
             this.lblGreentxt.Name = "lblGreentxt";
             this.lblGreentxt.Size = new System.Drawing.Size(67, 25);
             this.lblGreentxt.TabIndex = 38;
             // 
             // lblBluetxt
             // 
-            this.lblBluetxt.Location = new System.Drawing.Point(367, 245);
+            this.lblBluetxt.Location = new System.Drawing.Point(463, 244);
             this.lblBluetxt.Name = "lblBluetxt";
             this.lblBluetxt.Size = new System.Drawing.Size(67, 25);
             this.lblBluetxt.TabIndex = 39;
             // 
             // lblIntensitytxt
             // 
-            this.lblIntensitytxt.Location = new System.Drawing.Point(367, 296);
+            this.lblIntensitytxt.Location = new System.Drawing.Point(463, 295);
             this.lblIntensitytxt.Name = "lblIntensitytxt";
             this.lblIntensitytxt.Size = new System.Drawing.Size(67, 25);
             this.lblIntensitytxt.TabIndex = 40;
+            // 
+            // lbUserColors
+            // 
+            this.lbUserColors.FormattingEnabled = true;
+            this.lbUserColors.Location = new System.Drawing.Point(7, 119);
+            this.lbUserColors.Name = "lbUserColors";
+            this.lbUserColors.Size = new System.Drawing.Size(90, 212);
+            this.lbUserColors.TabIndex = 41;
+            this.lbUserColors.SelectedIndexChanged += new System.EventHandler(this.lbUserColors_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 102);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.TabIndex = 42;
+            this.label2.Text = "User Colors";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // tbUserColorsName
+            // 
+            this.tbUserColorsName.Location = new System.Drawing.Point(6, 342);
+            this.tbUserColorsName.MaxLength = 5;
+            this.tbUserColorsName.Name = "tbUserColorsName";
+            this.tbUserColorsName.Size = new System.Drawing.Size(91, 20);
+            this.tbUserColorsName.TabIndex = 43;
+            // 
+            // bSaveDelete
+            // 
+            this.bSaveDelete.Location = new System.Drawing.Point(6, 368);
+            this.bSaveDelete.Name = "bSaveDelete";
+            this.bSaveDelete.Size = new System.Drawing.Size(91, 20);
+            this.bSaveDelete.TabIndex = 44;
+            this.bSaveDelete.Text = "Save";
+            this.bSaveDelete.UseVisualStyleBackColor = true;
             // 
             // LEDframeforCustomers
             // 
@@ -518,7 +558,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(449, 407);
+            this.ClientSize = new System.Drawing.Size(534, 400);
+            this.Controls.Add(this.bSaveDelete);
+            this.Controls.Add(this.tbUserColorsName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbUserColors);
             this.Controls.Add(this.lblIntensitytxt);
             this.Controls.Add(this.lblBluetxt);
             this.Controls.Add(this.lblGreentxt);
@@ -549,7 +593,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LEDframeforCustomers";
-            this.Text = "Mazda Change LED Color v1.3";
+            this.Text = "Mazda Change LED Color v2.0";
             ((System.ComponentModel.ISupportInitialize)(this.tbarRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarBlue)).EndInit();
@@ -602,5 +646,9 @@
         private System.Windows.Forms.Label lblGreentxt;
         private System.Windows.Forms.Label lblBluetxt;
         private System.Windows.Forms.Label lblIntensitytxt;
+        private System.Windows.Forms.ListBox lbUserColors;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbUserColorsName;
+        private System.Windows.Forms.Button bSaveDelete;
     }
 }

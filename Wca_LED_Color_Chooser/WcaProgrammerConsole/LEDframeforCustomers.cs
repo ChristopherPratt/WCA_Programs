@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Timers;
+using System.Xml;
+
 
 
 
@@ -14,6 +16,7 @@ namespace WcaDVConsole
 {
     public partial class LEDframeforCustomers : Form
     {
+        bool defaultValuesDisabled = false;
         public string Version;
         private System.Timers.Timer readComportsTimer, readColorTimer;
         delegate void dgetLEDforCustomers(Action job);
@@ -27,6 +30,8 @@ namespace WcaDVConsole
         List<byte[]> cyanRed, cyanOrange, cyanBlue, cyanGreen, cyanWhite, cyanOff, yellowRed, yellowOrange, yellow, yellowGreen, yellowWhite, yellowOff;
         List<List<byte[]>> cyanColors;
         List<List<byte[]>> yellowColors;
+        List<List<byte[]>> userColors;
+        List<string> userColorNames;
 
         double previousIntensity = 50;
         int redTemp, greenTemp, blueTemp;
@@ -56,6 +61,7 @@ namespace WcaDVConsole
             initiateLists();
             setDisabled(initialDisable);
             initiateColorArrays();
+            populateUserColorListbox();
             if (Version == "IGNORE ESN YELLOW") cbEnableSliders.Visible = false;
             tbarIntensity.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
             tbarRed.MouseWheel += new MouseEventHandler(DoNothing_MouseWheel);
@@ -69,23 +75,77 @@ namespace WcaDVConsole
         }
         private void initiateColorArrays()
         {
-            cyanRed = new List<byte[]> { new byte[] { 0xFF, 0x07, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            cyanOrange = new List<byte[]> { new byte[] { 0xFB, 0x27, 0, 0 }, new byte[] { 0xFF, 0x07, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            cyanBlue = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x01, 0, 0 }, new byte[] { 0xFB, 0x09, 0, 0 } };
-            cyanGreen = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x07, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            cyanWhite = new List<byte[]> { new byte[] { 0xFF, 0x2F, 0, 0 }, new byte[] { 0xFF, 0x2F, 0, 0 }, new byte[] { 0xFF, 0x2F, 0, 0 } };
-            cyanOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            yellowRed = new List<byte[]> { new byte[] { 0xFF, 0xFF, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
-            yellowOrange = new List<byte[]> { new byte[] { 0x1D, 0xC5, 0, 0 }, new byte[] { 0xD8, 0x1A, 0, 0 }, new byte[] { 0x00, 0x00, 0, 0 } };
-            yellowGreen = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x3F, 0, 0 }, new byte[] { 0xFF, 0x01, 0, 0 } };
-            yellowWhite = new List<byte[]> { new byte[] { 0x32, 0xB3, 0, 0 }, new byte[] { 0x7D, 0x8B, 0, 0 }, new byte[] { 0xB1, 0x3E, 0, 0 } };
-            yellowOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+            XmlDocument xmlRead;
+            XmlNodeList nodeList;
+            xmlRead = new XmlDocument();
+
+            try { // get all color values from the .xml file
+                xmlRead.Load(@"defaultValues.xml");
+
+                cyanRed = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("RED"));
+                cyanOrange = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("ORANGE"));
+                cyanBlue = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("BLUE"));
+                cyanGreen = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("GREEN"));
+                cyanWhite = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("WHITE"));
+                cyanOff = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("CYAN")[0].SelectSingleNode("OFF"));
+                yellowRed = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("YELLOW")[0].SelectSingleNode("RED"));
+                yellowOrange = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("YELLOW")[0].SelectSingleNode("ORANGE"));
+                yellowGreen = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("YELLOW")[0].SelectSingleNode("GREEN"));
+                yellowWhite = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("YELLOW")[0].SelectSingleNode("WHITE"));
+                yellowOff = getColor(xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("DEFAULTVALUES")[0].SelectNodes("YELLOW")[0].SelectSingleNode("OFF"));
+                foreach (XmlNode myNode in xmlRead.SelectNodes("LEDCOLORS")[0].SelectNodes("USERVALUES")[0].SelectNodes("COLOR"))
+                {
+                    userColors.Add(getColor(myNode));
+                    userColorNames.Add(myNode.Attributes.Item(0).Value);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(".XML file is incorrect or unavailable. Defualt values will be disabled.\n\n" + e);
+                defaultValuesDisabled = true;
+                //cyanRed = new List<byte[]> { new byte[] { 0xFF, 0xFF, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+                //cyanOrange = new List<byte[]> { new byte[] { 0xFF, 0xFF, 0, 0 }, new byte[] { 0x00, 0x06, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+                //cyanBlue = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x01, 0, 0 }, new byte[] { 0xFB, 0x09, 0, 0 } };
+                //cyanGreen = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x03, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+                //cyanWhite = new List<byte[]> { new byte[] { 0xAF, 0xAF, 0, 0 }, new byte[] { 0x1C, 0x1C, 0, 0 }, new byte[] { 0x3E, 0x3E, 0, 0 } };
+                //cyanOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+                //yellowRed = new List<byte[]> { new byte[] { 0xFF, 0xFF, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+                //yellowOrange = new List<byte[]> { new byte[] { 0x1D, 0xC5, 0, 0 }, new byte[] { 0xD8, 0x1A, 0, 0 }, new byte[] { 0x00, 0x00, 0, 0 } };
+                //yellowGreen = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0xFF, 0x3F, 0, 0 }, new byte[] { 0xFF, 0x01, 0, 0 } };
+                //yellowWhite = new List<byte[]> { new byte[] { 0x32, 0xB3, 0, 0 }, new byte[] { 0x7D, 0x8B, 0, 0 }, new byte[] { 0xB1, 0x3E, 0, 0 } };
+                //yellowOff = new List<byte[]> { new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 }, new byte[] { 0, 0, 0, 0 } };
+            }
+
             cyanColors = new List<List<byte[]>> { cyanRed, cyanOrange, cyanBlue, cyanGreen, cyanWhite, cyanOff };
             yellowColors = new List<List<byte[]>> { yellowRed, yellowOrange, yellowGreen, yellowWhite, yellowOff };
             ColorArray = new List<byte[]> { redArray, greenArray, blueArray };
 
+            
+
+            //BitConverter.GetBytes(nodeList[0].ToString());
+
+           
         }
 
+        // takes individual colors from the RGB and returns the List of byte[] for the color set.
+        private List<byte[]> getColor(XmlNode myNode)
+        {
+            byte[] myRed = getRGB(myNode.SelectSingleNode("R").InnerText.Split(','));
+            byte[] myGreen = getRGB(myNode.SelectSingleNode("G").InnerText.ToString().Split(','));
+            byte[] myBlue = getRGB(myNode.SelectSingleNode("B").InnerText.ToString().Split(','));
+            return new List<byte[]> { myRed, myGreen, myBlue };
+        }
+        private byte[] getRGB(string[] myColor)
+        {
+            byte temp0 = Convert.ToByte(myColor[1], 16);//convert string to byte
+            byte temp1 = Convert.ToByte(myColor[0], 16);
+            return new byte[] { temp0, temp1, 0x00, 0x00 }; // return byte array with extra 2 empty bytes.
+        }
+
+        private void populateUserColorListbox()
+        {
+            foreach (string colorName in userColorNames) lbUserColors.Items.Add(colorName);
+        }
 
         private void populateComports()
         {
@@ -95,6 +155,8 @@ namespace WcaDVConsole
 
         private void initiateLists()
         {
+            userColors = new List<List<byte[]>>();
+            userColorNames = new List<string>();
             ColorsTrackBars = new List<Control>() { lblred, tbarRed, tbRed, lblGreen, tbarGreen, tbGreen, lblBlue, tbarBlue, tbBlue };
             radioButtonsCyan = new List<Control>() { rbCyanRed, rbCyanOrange, rbCyanBlue, rbCyanGreen, rbCyanWhite, rbCyanOff };
             radioButtonsYellow = new List<Control>() { rbYellowRed, rbYellowOrange, rbYellowGreen, rbYellowWhite, rbYellowOff };
@@ -137,8 +199,12 @@ namespace WcaDVConsole
                 {
                     if ((Version.Equals("IGNORE ESN CYAN"))) // if the esn is " 097402" (Cyan)
                     {
-                        setVisible(radioButtonsCyan);
-                        setInvisible(radioButtonsYellow);
+                        if (!defaultValuesDisabled)
+                        {
+                            setVisible(radioButtonsCyan);
+                            setInvisible(radioButtonsYellow);
+                        }
+                       
                         setEnabled(IntensityTrackBar);
                         setEnabled(dataTypes);
                         setDisabled(ColorsTrackBars);
@@ -147,8 +213,12 @@ namespace WcaDVConsole
                     }
                     else if ((Version.Equals("IGNORE ESN YELLOW")))// if the esn is " 09710" (Yellow)
                     {
-                        setInvisible(radioButtonsCyan);
-                        setVisible(radioButtonsYellow);
+                        if (!defaultValuesDisabled)
+                        {
+                            setInvisible(radioButtonsCyan);
+                            setVisible(radioButtonsYellow);
+                        }
+                        
                         setEnabled(ColorsTrackBars);
                         setEnabled(dataTypes);
                         setEnabled(IntensityTrackBar);
@@ -156,8 +226,12 @@ namespace WcaDVConsole
                     }
                     else if ((temp[1][3] == '4' && Version.Equals("CYAN"))) // if the esn is " 097402" (Cyan)
                     {
-                        setVisible(radioButtonsCyan);
-                        setInvisible(radioButtonsYellow);
+                        if (!defaultValuesDisabled)
+                        {
+                            setVisible(radioButtonsCyan);
+                            setInvisible(radioButtonsYellow);
+                        }
+                        
                         setEnabled(IntensityTrackBar);
                         setEnabled(dataTypes);
                         setDisabled(ColorsTrackBars);
@@ -166,8 +240,12 @@ namespace WcaDVConsole
                     }
                     else if ((temp[1][3] == '1' && Version.Equals("YELLOW")))// if the esn is " 09710" (Yellow)
                     {
-                        setInvisible(radioButtonsCyan);
-                        setVisible(radioButtonsYellow);
+                        if (!defaultValuesDisabled)
+                        {
+                            setInvisible(radioButtonsCyan);
+                            setVisible(radioButtonsYellow);
+                        }
+                        
                         setEnabled(ColorsTrackBars);
                         setEnabled(dataTypes);
                         setEnabled(IntensityTrackBar);
@@ -528,6 +606,24 @@ namespace WcaDVConsole
             
 
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbUserColors_SelectedIndexChanged(object sender, EventArgs e) // if user selects color in list box user radio button function to set colors.
+        {
+            string selectedColor = lbUserColors.SelectedItem.ToString();
+            for (int a = 0; a < userColorNames.Count; a++)
+            {
+                if (userColorNames[a].Equals(selectedColor)) changeColorbyRB(userColors[a][0], userColors[a][1], userColors[a][2]);
+            }
+            tbUserColorsName.Text = selectedColor;
+            bSaveDelete.Text = "Delete";
+            
+        }
+
         private void intensityManualEnter(string newValue, KeyEventArgs e)
         {
             lblIntensitytxt.Text = "Press Enter";
