@@ -20,6 +20,7 @@ namespace WcaDVConsole
         Commands myCommands;
         EVtestMode ev;
         TimedEVtest0 timedEVTest0;
+        rapidCyclingTest rapidCyclingTestrun;
         LEDframe[] ledframe;
         SetESNframe[] setesnframe;
         delegate void dgetpMainFrame(Action job);
@@ -33,7 +34,7 @@ namespace WcaDVConsole
         public string textReadyString, evfirmwareprogramtestmode, ProgramMode = "", Firmware = "", Console, tempConsole;
         string[] availableComports;
         public int ConsoleCount, rtbLength;
-        
+
         List<Control> lprogramMode, lDUTnum, lFirmware, lvalidation, lvalidationStart, lCommands, lfavCommands, lConsole, lEOLmode, ldut1, ldut2, ldut3, ldut4, ldut5, ldut6, activeControls, lRadioButtons;
         List<List<Control>> lduts, ActiveDUTs;
 
@@ -44,7 +45,8 @@ namespace WcaDVConsole
             "Programming mode"};
         List<string> EVModeList = new List<string> {
             "Continuous test mode",
-            "14.5 on, 6 off, 3.5 on 10 cycle test mode"};
+            "14.5 on, 6 off, 3.5 on 10 cycle test mode",
+            "Rapid Cycling Debug Mode"};
         List<string> DUTlist = new List<string> {
             "DUT 1",
             "DUT 2",
@@ -196,7 +198,7 @@ namespace WcaDVConsole
         {
             checkComports = new Thread(delegate ()
             {
-                while(!comportTimerBreak)
+                while (!comportTimerBreak)
                 {
                     OnTimedEvent();
                     Thread.Sleep(1000);
@@ -438,10 +440,10 @@ namespace WcaDVConsole
                     ((Panel)templist[5]).Enabled = true;
                 }
                 if (myCommands.anyActiveDuts()) { }
-                   // if (myCommands.Devices[0].programmingMode) myCommands.checkifComPortExists(myCommands.Devices[0].dutNumber, myCommands.Devices[0].comport, ProgramMode, myCommands.Devices[0].baud, false);
+                // if (myCommands.Devices[0].programmingMode) myCommands.checkifComPortExists(myCommands.Devices[0].dutNumber, myCommands.Devices[0].comport, ProgramMode, myCommands.Devices[0].baud, false);
             }
         }
-        
+
         public void returnFromProgrammingMode()
         {
             Action temp2 = () =>
@@ -462,7 +464,7 @@ namespace WcaDVConsole
             {
                 if (myCommands.Devices[a] == null) continue;
                 if (myCommands.Devices[a].ready == true)
-                temp.Add(a);
+                    temp.Add(a);
             }
             return temp;
         }
@@ -625,7 +627,7 @@ namespace WcaDVConsole
                     }
                     tempConsole += myString;
                     rtbConsole.AppendText(myString);
-                   // rtbConsole.Text = Console;
+                    // rtbConsole.Text = Console;
                 }
             }
             catch (Exception e) { };
@@ -651,7 +653,7 @@ namespace WcaDVConsole
         private List<int> readyToProgram()
         {
             List<int> readyDevices = new List<int>();
-            for(int a = 0; a < 6; a++)
+            for (int a = 0; a < 6; a++)
             {
                 if (myCommands.Devices[a] == null) continue;
                 if (myCommands.Devices[a].bootloaderMode) readyDevices.Add(a);
@@ -669,7 +671,7 @@ namespace WcaDVConsole
                     ((RadioButton)templist[7]).Checked = false;
                 };
                 getpMainFrame(temp2);
-                
+
             }
             else
             {
@@ -678,7 +680,7 @@ namespace WcaDVConsole
                     ((RadioButton)templist[7]).Checked = true;
                 };
                 getpMainFrame(temp2);
-                
+
             }
         }
         private void checkconfiguration()
@@ -697,11 +699,11 @@ namespace WcaDVConsole
                             if (!bStart.Enabled && lbFirmwareFileEVprograms.SelectedItems.Count > 0) setEnabled(lvalidationStart); // enable all controls for starting a test
                             break;
                         }
-                    //case "Programming mode":
-                    //    {
-                    //        if (!bStart.Enabled && lbFirmwareFileEVprograms.SelectedItems.Count > 0) setEnabled(lvalidationStart); // enable all controls for programming (same as validation mode)
-                    //        break;
-                    //    }
+                        //case "Programming mode":
+                        //    {
+                        //        if (!bStart.Enabled && lbFirmwareFileEVprograms.SelectedItems.Count > 0) setEnabled(lvalidationStart); // enable all controls for programming (same as validation mode)
+                        //        break;
+                        //    }
 
                 }
             }
@@ -816,6 +818,35 @@ namespace WcaDVConsole
                         EV14_5on6off3_5on10cycleYestMode(start);
                         break;
                     }
+                case "Rapid Cycling Debug Mode":
+                    {
+                        EV_RapidCycling(start);
+                        break;
+                    }
+            }
+        }
+
+        private void EV_RapidCycling(bool start)
+        {
+            if (start)
+            {
+                rapidCyclingTestrun = new rapidCyclingTest();
+                List<Commands.DeviceData> temp = new List<Commands.DeviceData>();
+                for (int i = 0; i < 6; i++)
+                    if (myCommands.Devices[i] != null)
+                        if (myCommands.Devices[i].ready)
+                        {
+                            temp.Add(myCommands.Devices[i]);
+                            myCommands.Devices[i].setGUIESN = true;
+                            myCommands.runCommands("Read ESN (big endian)", i);
+                            myCommands.Devices[i].failCount = 0;
+                        }
+                rapidCyclingTestrun.Run(temp, myCommands);
+
+            }
+            else
+            {
+                if (rapidCyclingTestrun != null) timedEVTest0.endTestFromMainFrame();
             }
         }
 
@@ -1121,7 +1152,19 @@ namespace WcaDVConsole
                         EVthread.Name = "EVthread";
                         EVthread.Start();
                     }
-                    
+                    else if (lbFirmwareFileEVprograms.SelectedItem.ToString().Equals("Rapid Cycling Debug Mode"))
+                    {
+                        bStart.Text = "Stop";
+                        activeTest = true;
+                        disableForm(false);
+                        EVthread = new Thread(delegate ()
+                        {
+                            runEVTestMode(true);
+                        });
+                        EVthread.Name = "EVthread";
+                        EVthread.Start();
+                    }
+
                 }
                
                 else if (ProgramMode.Equals("Programming mode"))

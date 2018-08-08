@@ -15,7 +15,63 @@ namespace WcaDVConsole
         public AnalogMultiChannelReader myAnalogReader1;
         public AnalogMultiChannelReader myAnalogReader2;
         public AnalogMultiChannelReader myAnalogReader3;
+        public Task digitalTask1;
+        public Task digitalTask2;
+        public Task digitalTask3;
+        public DigitalSingleChannelWriter myDigitalWriter1;
+        public DigitalSingleChannelWriter myDigitalWriter2;
+        public DigitalSingleChannelWriter myDigitalWriter3;
 
+        public Daq(bool digital)
+        {
+            digitalTask1 = new Task();
+            digitalTask2 = new Task();
+            digitalTask3 = new Task();
+
+            digitalTask1.DOChannels.CreateChannel("Dev1/port0/line1:1", "PFI14", ChannelLineGrouping.OneChannelForEachLine);
+            digitalTask1.DOChannels.CreateChannel("Dev1/port1/line1:1", "PFI12", ChannelLineGrouping.OneChannelForEachLine);
+            digitalTask1.DOChannels.CreateChannel("Dev1/port2/line1:2", "PFI9", ChannelLineGrouping.OneChannelForEachLine);
+
+            //digitalTask1.DOChannels.CreateChannel("Dev1/PFI14", "PFI14", ChannelLineGrouping.OneChannelForEachLine);
+            //digitalTask1.DOChannels.CreateChannel("Dev1/PFI12", "PFI12", ChannelLineGrouping.OneChannelForEachLine);
+            //digitalTask1.DOChannels.CreateChannel("Dev1/PFI9", "PFI9", ChannelLineGrouping.OneChannelForEachLine);
+
+            digitalTask1.Control(TaskAction.Verify);
+
+            myDigitalWriter1 = new DigitalSingleChannelWriter(digitalTask1.Stream);
+            myDigitalWriter2 = new DigitalSingleChannelWriter(digitalTask2.Stream);
+            myDigitalWriter3 = new DigitalSingleChannelWriter(digitalTask3.Stream);
+        }
+        public void setHi(bool[] device)
+        {
+            if (device[0])
+            {
+                myDigitalWriter1.WriteSingleSampleSingleLine(true, device[0]);
+            }
+            if (device[1])
+            {
+                myDigitalWriter2.WriteSingleSampleSingleLine(true, device[1]);
+            }
+            if (device[2])
+            {
+                myDigitalWriter3.WriteSingleSampleSingleLine(true, device[2]);
+            }
+        }
+        public void setLo(bool[] device)
+        {
+            if (device[0])
+            {
+                myDigitalWriter1.WriteSingleSampleSingleLine(true, device[0]);
+            }
+            if (device[1])
+            {
+                myDigitalWriter2.WriteSingleSampleSingleLine(true, device[1]);
+            }
+            if (device[2])
+            {
+                myDigitalWriter3.WriteSingleSampleSingleLine(true, device[2]);
+            }
+        }
         public Daq(string[] ai)
         {
             try

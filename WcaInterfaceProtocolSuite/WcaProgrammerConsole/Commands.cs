@@ -19,7 +19,7 @@ namespace WcaDVConsole
         public MainFrame myMainFrame;
         private bool ascii = false;
         private Target m_target = null;
-        private bool m_bootloader_ready = false, startEOLmode = false, startDebugmode = false;
+         public bool m_bootloader_ready = false, startEOLmode = false, startDebugmode = false;
         //public Daq myDaq;
         public bool daq = false;
         public int coilTime = 1500;

@@ -116,6 +116,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="rapidCyclingTest.cs" />
     <Compile Include="SetESNframe.cs">
       <SubType>Form</SubType>
     </Compile>

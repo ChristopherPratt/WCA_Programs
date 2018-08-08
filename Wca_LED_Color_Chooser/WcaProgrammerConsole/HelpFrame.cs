@@ -17,7 +17,7 @@ namespace WcaDVConsole
             InitializeComponent();
             lblHelp.Text =
                 "0. Have Wireless Charger unplugged from power (ACC OFF) and USB serial from the PC.\n"
-                + "1.Plug USB Serial cable into the computer.\n"
+                + "1.Plug USB Serial cable into the computer and wait 5 seconds for the computer to recognize it.\n"
                 + "2.Select the new COM port that appears in the ComPorts list box.\n"
                 + "3.Apply 12 Volts (ACC ON) to wireless charger device.\n"
                 + "4.Beneath the \"Help\" button the message should say \"Connected\".\n"

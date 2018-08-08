@@ -67,9 +67,10 @@
             this.lblBluetxt = new System.Windows.Forms.Label();
             this.lblIntensitytxt = new System.Windows.Forms.Label();
             this.lbUserColors = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblUserColors = new System.Windows.Forms.Label();
             this.tbUserColorsName = new System.Windows.Forms.TextBox();
             this.bSaveDelete = new System.Windows.Forms.Button();
+            this.lblcolorName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tbarRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarBlue)).BeginInit();
@@ -473,7 +474,7 @@
             // gbDefault
             // 
             this.gbDefault.Controls.Add(this.panel1);
-            this.gbDefault.Location = new System.Drawing.Point(105, 310);
+            this.gbDefault.Location = new System.Drawing.Point(103, 322);
             this.gbDefault.Name = "gbDefault";
             this.gbDefault.Size = new System.Drawing.Size(426, 78);
             this.gbDefault.TabIndex = 32;
@@ -525,32 +526,42 @@
             this.lbUserColors.TabIndex = 41;
             this.lbUserColors.SelectedIndexChanged += new System.EventHandler(this.lbUserColors_SelectedIndexChanged);
             // 
-            // label2
+            // lblUserColors
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 102);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 42;
-            this.label2.Text = "User Colors";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.lblUserColors.AutoSize = true;
+            this.lblUserColors.Location = new System.Drawing.Point(5, 102);
+            this.lblUserColors.Name = "lblUserColors";
+            this.lblUserColors.Size = new System.Drawing.Size(61, 13);
+            this.lblUserColors.TabIndex = 42;
+            this.lblUserColors.Text = "User Colors";
+            this.lblUserColors.Click += new System.EventHandler(this.label2_Click);
             // 
             // tbUserColorsName
             // 
-            this.tbUserColorsName.Location = new System.Drawing.Point(6, 342);
-            this.tbUserColorsName.MaxLength = 5;
+            this.tbUserColorsName.Location = new System.Drawing.Point(6, 337);
+            this.tbUserColorsName.MaxLength = 15;
             this.tbUserColorsName.Name = "tbUserColorsName";
             this.tbUserColorsName.Size = new System.Drawing.Size(91, 20);
             this.tbUserColorsName.TabIndex = 43;
+            this.tbUserColorsName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbUserColorsName_KeyUp);
             // 
             // bSaveDelete
             // 
-            this.bSaveDelete.Location = new System.Drawing.Point(6, 368);
+            this.bSaveDelete.Location = new System.Drawing.Point(7, 380);
             this.bSaveDelete.Name = "bSaveDelete";
             this.bSaveDelete.Size = new System.Drawing.Size(91, 20);
             this.bSaveDelete.TabIndex = 44;
             this.bSaveDelete.Text = "Save";
             this.bSaveDelete.UseVisualStyleBackColor = true;
+            this.bSaveDelete.Click += new System.EventHandler(this.bSaveDelete_Click);
+            // 
+            // lblcolorName
+            // 
+            this.lblcolorName.AutoSize = true;
+            this.lblcolorName.Location = new System.Drawing.Point(9, 362);
+            this.lblcolorName.Name = "lblcolorName";
+            this.lblcolorName.Size = new System.Drawing.Size(0, 13);
+            this.lblcolorName.TabIndex = 45;
             // 
             // LEDframeforCustomers
             // 
@@ -558,10 +569,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(534, 400);
+            this.ClientSize = new System.Drawing.Size(534, 412);
+            this.Controls.Add(this.lblcolorName);
             this.Controls.Add(this.bSaveDelete);
             this.Controls.Add(this.tbUserColorsName);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblUserColors);
             this.Controls.Add(this.lbUserColors);
             this.Controls.Add(this.lblIntensitytxt);
             this.Controls.Add(this.lblBluetxt);
@@ -593,7 +605,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LEDframeforCustomers";
-            this.Text = "Mazda Change LED Color v2.0";
+            this.Text = "Mazda Change LED Color v2.1";
+            this.Load += new System.EventHandler(this.LEDframeforCustomers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tbarRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbarBlue)).EndInit();
@@ -647,8 +660,9 @@
         private System.Windows.Forms.Label lblBluetxt;
         private System.Windows.Forms.Label lblIntensitytxt;
         private System.Windows.Forms.ListBox lbUserColors;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblUserColors;
         private System.Windows.Forms.TextBox tbUserColorsName;
         private System.Windows.Forms.Button bSaveDelete;
+        private System.Windows.Forms.Label lblcolorName;
     }
 }
